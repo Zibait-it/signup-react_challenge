@@ -1,14 +1,22 @@
 import Image from "next/image";
-import EyeClosed from "../assets/icons/EyeClosed.svg";
 
 interface InputProps {
   label: string;
   placeholder: string;
   icon: string;
   type: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
 }
 
-export default function Input({ label, placeholder, icon, type }: InputProps) {
+export default function Input({
+  label,
+  placeholder,
+  icon,
+  type,
+  onChange,
+  name,
+}: InputProps) {
   return (
     <div className="flex flex-col gap-1">
       <label className="font-manrope text-primary-600 font-normal text-xs tracking-wide">
@@ -19,13 +27,15 @@ export default function Input({ label, placeholder, icon, type }: InputProps) {
           <Image src={icon} alt="" width={20} height={20} />
         </div>
         <input
+          name={name}
+          onChange={onChange}
           type={type}
           className="flex w-full pl-10 py-4 rounded-tl-lg border-b border-primary-500 bg-primary-50 placeholder:text-primary-600 text-primary-900 rounded-tr-lg font-light text-base font-manrope tracking-wide"
           placeholder={placeholder}
         ></input>
         {type === "password" ? (
           <div className="flex items-center absolute inset-y-0 right-0 pr-3">
-            <Image src={EyeClosed} alt="" width={20} height={20} />
+            <Image src={"/icons/EyeClosed.svg"} alt="" width={20} height={20} />
           </div>
         ) : null}
       </div>

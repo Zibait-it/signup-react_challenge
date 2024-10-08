@@ -1,17 +1,32 @@
+"use client";
 import Image from "next/image";
-import Logo from "./assets/images/logo.svg";
+import { useState } from "react";
 import Input from "./components/Input";
-import LetterIcon from "./assets/icons/Letter.svg";
-import LockIcon from "./assets/icons/Lock.svg";
-import UserIcon from "./assets/icons/User.svg";
 import Button from "./components/Button";
 
 export default function SignUp() {
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return (
-    <main className="flex flex-col gap-16 bg-background h-full pt-16 pb-24 px-6">
-      <Image src={Logo} alt="Logo" className="w-52 h-auto" />
-      <div className="flex flex-col gap-14">
-        <div className="flex flex-col gap-6">
+    <main className="flex flex-col lg:flex-row gap-16 bg-background h-full lg:h-screen pt-16 pb-24 px-6 lg:gap-0 lg:pt-0 lg:pb-0 lg:px-0">
+      <div className="w-full lg:h-full lg:w-3/5 lg:bg-[url('/images/Image1.jpg')] lg:bg-cover lg:bg-no-repeat lg:bg-top lg:pl-10 lg:pt-8">
+        <Image src="/images/logo.svg" width={195} height={33} alt="Logo" />
+      </div>
+      <div className="flex flex-col gap-14 w-full lg:w-2/5 lg:justify-center lg:items-center lg:px-16">
+        <div className="flex flex-col gap-6 lg:w-full">
           <h1 className="font-ubuntu text-3xl font-medium text-primary-700">
             Sign up
           </h1>
@@ -26,30 +41,38 @@ export default function SignUp() {
           </div>
         </div>
 
-        <form className="flex flex-col gap-8">
+        <form className="flex flex-col gap-8 lg:w-full">
           <Input
-            icon={LetterIcon}
+            icon="/icons/Letter.svg"
             label="Email"
             placeholder="Enter your email address"
             type="text"
+            name="email"
+            onChange={handleChange}
           />
           <Input
-            icon={UserIcon}
+            icon="/icons/User.svg"
             label="Username"
             placeholder="Enter your username"
             type="text"
+            name="username"
+            onChange={handleChange}
           />
           <Input
-            icon={LockIcon}
+            icon="/icons/Lock.svg"
             label="Password"
             placeholder="Enter your password"
             type="password"
+            name="password"
+            onChange={handleChange}
           />
           <Input
-            icon={LockIcon}
+            icon="/icons/Lock.svg"
             label="Confirm Password"
             placeholder="Confirm your password"
             type="password"
+            name="confirmPassword"
+            onChange={handleChange}
           />
         </form>
         <Button text="Register" variant="primary" />
