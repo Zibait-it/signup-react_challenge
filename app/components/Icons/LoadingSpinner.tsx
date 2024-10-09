@@ -1,4 +1,4 @@
-export default function LoadingSpinner(props: React.SVGProps<SVGSVGElement>) {
+export function LoadingSpinner(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="168"

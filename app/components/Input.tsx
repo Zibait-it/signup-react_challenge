@@ -1,5 +1,7 @@
 import { ReactNode, InputHTMLAttributes } from "react";
-import EyeClosed from "./Icons/EyeClosed";
+import { EyeClosed } from "./Icons";
+import InputLabel from "./InputLabel";
+import InputWrapper from "./InputWrapper";
 
 type InputProps = {
   label: string;
@@ -20,10 +22,8 @@ export default function Input({
   ...rest
 }: InputProps) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="font-manrope text-primary-600 font-normal text-xs tracking-wide">
-        {label}
-      </label>
+    <InputWrapper>
+      <InputLabel>{label}</InputLabel>
       <div className="relative">
         <div
           className={`flex items-center absolute inset-y-0 pl-3 fill-primary-400 transition-colors duration-150 ${
@@ -50,6 +50,6 @@ export default function Input({
           </div>
         ) : null}
       </div>
-    </div>
+    </InputWrapper>
   );
 }

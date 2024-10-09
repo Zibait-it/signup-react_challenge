@@ -2,11 +2,7 @@
 import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
-import Letter from "./Icons/Letter";
-import Lock from "./Icons/Lock";
-import User from "./Icons/User";
-import LoadingSpinner from "./Icons/LoadingSpinner";
-import Confetti from "./Icons/Confetti";
+import { User, Letter, Lock, LoadingSpinner, Confetti } from "./Icons";
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -44,7 +40,7 @@ export default function SignUpForm() {
   if (completed)
     return (
       <section className="w-full h-full flex flex-col items-center justify-center text-center gap-6">
-        <Confetti />
+        <Confetti className="fill-complementary-400" />
         <h2 className="font-ubuntu font-medium text-4xl text-complementary-700">
           Great!
           <br />

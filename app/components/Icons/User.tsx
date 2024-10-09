@@ -1,4 +1,4 @@
-export default function User(props: React.SVGProps<SVGSVGElement>) {
+export function User(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="20"

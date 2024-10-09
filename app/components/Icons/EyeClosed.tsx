@@ -1,4 +1,4 @@
-export default function EyeClosed(props: React.SVGProps<SVGSVGElement>) {
+export function EyeClosed(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="20"

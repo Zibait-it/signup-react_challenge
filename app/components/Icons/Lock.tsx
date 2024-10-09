@@ -1,4 +1,4 @@
-export default function Lock(props: React.SVGProps<SVGSVGElement>) {
+export function Lock(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="20"
