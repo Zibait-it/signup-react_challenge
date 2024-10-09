@@ -3,6 +3,9 @@ import Image from "next/image";
 import { useState } from "react";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import Letter from "./components/Icons/Letter";
+import Lock from "./components/Icons/Lock";
+import User from "./components/Icons/User";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -43,36 +46,40 @@ export default function SignUp() {
 
         <form className="flex flex-col gap-8 lg:w-full">
           <Input
-            icon="/icons/Letter.svg"
+            icon={<Letter />}
             label="Email"
             placeholder="Enter your email address"
             type="text"
             name="email"
             onChange={handleChange}
+            value={formData.email}
           />
           <Input
-            icon="/icons/User.svg"
+            icon={<User />}
             label="Username"
             placeholder="Enter your username"
             type="text"
             name="username"
             onChange={handleChange}
+            value={formData.username}
           />
           <Input
-            icon="/icons/Lock.svg"
+            icon={<Lock />}
             label="Password"
             placeholder="Enter your password"
             type="password"
             name="password"
             onChange={handleChange}
+            value={formData.password}
           />
           <Input
-            icon="/icons/Lock.svg"
+            icon={<Lock />}
             label="Confirm Password"
             placeholder="Confirm your password"
             type="password"
             name="confirmPassword"
             onChange={handleChange}
+            value={formData.confirmPassword}
           />
         </form>
         <Button text="Register" variant="primary" />
