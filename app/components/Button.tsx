@@ -1,10 +1,14 @@
-interface ButtonProps {
-  text: string;
-  variant: "primary" | "secondary";
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+import { PropsWithChildren, ButtonHTMLAttributes } from "react";
 
-export default function Button({ text, variant, onClick }: ButtonProps) {
+type ButtonProps = {
+  variant: "primary" | "secondary";
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export default function Button({
+  children,
+  variant,
+  ...rest
+}: PropsWithChildren<ButtonProps>) {
   const variantStyles = {
     primary:
       "bg-complementary-500 text-primary-50 text-base font-manrope font-semibold flex items-center justify-center rounded-full py-3.5 lg:w-full",
@@ -12,8 +16,8 @@ export default function Button({ text, variant, onClick }: ButtonProps) {
   };
 
   return (
-    <button className={variantStyles[variant]} onClick={onClick}>
-      {text}
+    <button className={variantStyles[variant]} {...rest}>
+      {children}
     </button>
   );
 }

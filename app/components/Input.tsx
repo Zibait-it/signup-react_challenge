@@ -1,24 +1,23 @@
-import { ReactNode } from "react";
+import { ReactNode, InputHTMLAttributes } from "react";
 import EyeClosed from "./Icons/EyeClosed";
 
-interface InputProps {
+type InputProps = {
   label: string;
   placeholder: string;
   icon: ReactNode;
   type: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
   value: string;
-}
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({
   label,
   placeholder,
   icon,
   type,
-  onChange,
   name,
   value,
+  ...rest
 }: InputProps) {
   return (
     <div className="flex flex-col gap-1">
@@ -34,8 +33,8 @@ export default function Input({
           {icon}
         </div>
         <input
+          {...rest}
           name={name}
-          onChange={onChange}
           type={type}
           className={`outline-none flex w-full pl-10 py-4 rounded-tl-lg border-b border-primary-500 bg-primary-50 placeholder:text-primary-600 text-primary-900 rounded-tr-lg font-light text-base font-manrope tracking-wide transition-colors duration-150
             ${value && "border-primary-800"}`}
