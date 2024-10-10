@@ -60,14 +60,14 @@ export default function SignUpForm() {
 
   if (loading)
     return (
-      <section className="w-full h-full flex items-center justify-center">
+      <section className="w-full h-screen flex items-center justify-center">
         <LoadingSpinner />
       </section>
     );
 
   if (completed)
     return (
-      <section className="w-full h-full flex flex-col items-center justify-center text-center gap-6">
+      <section className="w-full h-screen flex flex-col items-center justify-center text-center gap-6 ">
         <Confetti className="fill-complementary-400" />
         <h2 className="font-ubuntu font-medium text-4xl text-complementary-700">
           Great!
