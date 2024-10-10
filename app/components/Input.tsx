@@ -46,7 +46,7 @@ export default function Input({
 
   return (
     <InputWrapper>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel inputState={inputState}>{label}</InputLabel>
       <div className="relative">
         <div
           className={`flex items-center absolute inset-y-0 pl-3 fill-primary-400 transition-colors duration-150 ${
