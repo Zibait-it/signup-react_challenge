@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { tv } from "tailwind-variants";
 
 type InputLabelProps = {
-  inputState: "error" | "filled" | "empty";
+  state: "error" | "filled" | "empty";
 };
 
 const label = tv({
@@ -17,8 +17,8 @@ const label = tv({
 });
 
 export default function InputLabel({
-  inputState,
+  state,
   children,
 }: PropsWithChildren<InputLabelProps>) {
-  return <label className={label({ state: inputState })}>{children}</label>;
+  return <label className={label({ state })}>{children}</label>;
 }

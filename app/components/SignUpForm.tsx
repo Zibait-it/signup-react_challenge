@@ -3,8 +3,48 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { User, Letter, Lock, LoadingSpinner, Confetti } from "./Icons";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormGetValues } from "react-hook-form";
 import { FormData } from "../types";
+
+const getSignUpRules = (getValues: UseFormGetValues<FormData>) => ({
+  email: {
+    required: { value: true, message: "Email is required" },
+    pattern: {
+      value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      message: "Invalid email address",
+    },
+  },
+  username: {
+    required: { value: true, message: "Username is required" },
+    maxLength: {
+      value: 20,
+      message: "Your username cannot exceed 20 characters",
+    },
+    pattern: {
+      value: /^\S+$/,
+      message: "Username cannot contain spaces",
+    },
+  },
+  password: {
+    required: { value: true, message: "Password is required" },
+    minLength: {
+      value: 8,
+      message: "Your password must contain at least 8 characters",
+    },
+    pattern: {
+      value: /^\S+$/,
+      message: "Password cannot contain spaces",
+    },
+  },
+  confirmPassword: {
+    required: {
+      value: true,
+      message: "Confirmed password is required",
+    },
+    validate: (value: string) =>
+      value === getValues("password") || "Passwords do not match",
+  },
+});
 
 export default function SignUpForm() {
   const {
@@ -14,48 +54,17 @@ export default function SignUpForm() {
     getValues,
     watch,
   } = useForm<FormData>();
+  const signUpRules = getSignUpRules(getValues);
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const hasErrors = Object.keys(errors).length > 0;
 
-  const signUpRules = {
-    email: {
-      required: { value: true, message: "Email is required" },
-      pattern: {
-        value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-        message: "Invalid email address",
-      },
-    },
-    username: {
-      required: { value: true, message: "Username is required" },
-      maxLength: {
-        value: 20,
-        message: "Your username cannot exceed 20 characters",
-      },
-      pattern: {
-        value: /^\S+$/,
-        message: "Username cannot contain spaces",
-      },
-    },
-    password: {
-      required: { value: true, message: "Password is required" },
-      minLength: {
-        value: 8,
-        message: "Your password must contain at least 8 characters",
-      },
-      pattern: {
-        value: /^\S+$/,
-        message: "Password cannot contain spaces",
-      },
-    },
-    confirmPassword: {
-      required: {
-        value: true,
-        message: "Confirmed password is required",
-      },
-      validate: (value: string) =>
-        value === getValues("password") || "Passwords do not match",
-    },
+  const handleSignUp = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setCompleted(true);
+    }, 1000);
   };
 
   if (loading)
@@ -112,7 +121,6 @@ export default function SignUpForm() {
           type="text"
           name="username"
           register={register}
-          required={true}
           rules={signUpRules.username}
           errors={errors}
           value={watch("username")}
@@ -124,7 +132,6 @@ export default function SignUpForm() {
           type="password"
           name="password"
           register={register}
-          required={true}
           rules={signUpRules.password}
           errors={errors}
           value={watch("password")}
@@ -136,22 +143,15 @@ export default function SignUpForm() {
           type="password"
           name="confirmPassword"
           register={register}
-          required={true}
           rules={signUpRules.confirmPassword}
           errors={errors}
           value={watch("confirmPassword")}
         />
       </form>
       <Button
-        variant={hasErrors ? "disabled" : "primary"}
+        variant={"primary"}
         disabled={hasErrors}
-        onClick={handleSubmit(() => {
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-            setCompleted(true);
-          }, 1000);
-        })}
+        onClick={handleSubmit(handleSignUp)}
       >
         Register
       </Button>

@@ -41,12 +41,19 @@ export default function Input({
   value,
   ...rest
 }: InputProps) {
-  const inputState =
-    errors && errors[name] ? "error" : value ? "filled" : "empty";
+  let inputState: "error" | "filled" | "empty";
+
+  if (errors && errors[name]) {
+    inputState = "error";
+  } else if (value) {
+    inputState = "filled";
+  } else {
+    inputState = "empty";
+  }
 
   return (
     <InputWrapper>
-      <InputLabel inputState={inputState}>{label}</InputLabel>
+      <InputLabel state={inputState}>{label}</InputLabel>
       <div className="relative">
         <div
           className={`flex items-center absolute inset-y-0 pl-3 fill-primary-400 transition-colors duration-150 ${
