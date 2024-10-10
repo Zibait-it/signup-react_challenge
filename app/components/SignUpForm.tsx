@@ -3,43 +3,80 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { User, Letter, Lock, LoadingSpinner, Confetti } from "./Icons";
+import { useForm, UseFormGetValues } from "react-hook-form";
+import { FormData } from "../types";
+
+const getSignUpRules = (getValues: UseFormGetValues<FormData>) => ({
+  email: {
+    required: { value: true, message: "Email is required" },
+    pattern: {
+      value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      message: "Invalid email address",
+    },
+  },
+  username: {
+    required: { value: true, message: "Username is required" },
+    maxLength: {
+      value: 20,
+      message: "Your username cannot exceed 20 characters",
+    },
+    pattern: {
+      value: /^\S+$/,
+      message: "Username cannot contain spaces",
+    },
+  },
+  password: {
+    required: { value: true, message: "Password is required" },
+    minLength: {
+      value: 8,
+      message: "Your password must contain at least 8 characters",
+    },
+    pattern: {
+      value: /^\S+$/,
+      message: "Password cannot contain spaces",
+    },
+  },
+  confirmPassword: {
+    required: {
+      value: true,
+      message: "Confirmed password is required",
+    },
+    validate: (value: string) =>
+      value === getValues("password") || "Passwords do not match",
+  },
+});
 
 export default function SignUpForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    watch,
+  } = useForm<FormData>();
+  const signUpRules = getSignUpRules(getValues);
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const hasErrors = Object.keys(errors).length > 0;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (): void => {
+  const handleSignUp = () => {
     setLoading(true);
     setTimeout(() => {
-      setCompleted(true);
       setLoading(false);
+      setCompleted(true);
     }, 1000);
   };
 
   if (loading)
     return (
-      <section className="w-full h-full flex items-center justify-center">
+      <section className="w-full h-screen flex items-center justify-center">
         <LoadingSpinner />
       </section>
     );
 
   if (completed)
     return (
-      <section className="w-full h-full flex flex-col items-center justify-center text-center gap-6">
+      <section className="w-full h-screen flex flex-col items-center justify-center text-center gap-6 ">
         <Confetti className="fill-complementary-400" />
         <h2 className="font-ubuntu font-medium text-4xl text-complementary-700">
           Great!
@@ -72,8 +109,10 @@ export default function SignUpForm() {
           placeholder="Enter your email address"
           type="text"
           name="email"
-          onChange={handleChange}
-          value={formData.email}
+          register={register}
+          rules={signUpRules.email}
+          errors={errors}
+          value={watch("email")}
         />
         <Input
           icon={<User />}
@@ -81,8 +120,10 @@ export default function SignUpForm() {
           placeholder="Enter your username"
           type="text"
           name="username"
-          onChange={handleChange}
-          value={formData.username}
+          register={register}
+          rules={signUpRules.username}
+          errors={errors}
+          value={watch("username")}
         />
         <Input
           icon={<Lock />}
@@ -90,8 +131,10 @@ export default function SignUpForm() {
           placeholder="Enter your password"
           type="password"
           name="password"
-          onChange={handleChange}
-          value={formData.password}
+          register={register}
+          rules={signUpRules.password}
+          errors={errors}
+          value={watch("password")}
         />
         <Input
           icon={<Lock />}
@@ -99,11 +142,17 @@ export default function SignUpForm() {
           placeholder="Confirm your password"
           type="password"
           name="confirmPassword"
-          onChange={handleChange}
-          value={formData.confirmPassword}
+          register={register}
+          rules={signUpRules.confirmPassword}
+          errors={errors}
+          value={watch("confirmPassword")}
         />
       </form>
-      <Button variant="primary" onClick={handleSubmit}>
+      <Button
+        variant={"primary"}
+        disabled={hasErrors}
+        onClick={handleSubmit(handleSignUp)}
+      >
         Register
       </Button>
     </section>
