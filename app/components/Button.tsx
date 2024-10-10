@@ -2,14 +2,15 @@ import { PropsWithChildren, ButtonHTMLAttributes } from "react";
 import { tv } from "tailwind-variants";
 
 type ButtonProps = {
-  variant: "primary";
+  variant: "primary" | "disabled";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const button = tv({
-  base: "text-base text-primary-50 rounded-full flex items-center justify-center py-3.5 lg:w-full ",
+  base: "text-base text-primary-50 rounded-full flex items-center justify-center py-3.5 lg:w-full transition-all duration-150",
   variants: {
     variant: {
-      primary: "bg-complementary-500 text-primary-50",
+      primary: "bg-complementary-500",
+      disabled: "bg-primary-300",
     },
   },
 });
