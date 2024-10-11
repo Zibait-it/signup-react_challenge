@@ -3,43 +3,40 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { User, Letter, Lock, LoadingSpinner, Confetti } from "./Icons";
+import { useForm } from "react-hook-form";
+import { FormData } from "../types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpSchema } from "../validationSchemas";
 
 export default function SignUpForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>({ resolver: zodResolver(signUpSchema) });
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const hasErrors = Object.keys(errors).length > 0;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (): void => {
+  const handleSignUp = () => {
     setLoading(true);
     setTimeout(() => {
-      setCompleted(true);
       setLoading(false);
+      setCompleted(true);
     }, 1000);
   };
 
   if (loading)
     return (
-      <section className="w-full h-full flex items-center justify-center">
+      <section className="w-full h-screen flex items-center justify-center">
         <LoadingSpinner />
       </section>
     );
 
   if (completed)
     return (
-      <section className="w-full h-full flex flex-col items-center justify-center text-center gap-6">
+      <section className="w-full h-screen flex flex-col items-center justify-center text-center gap-6 ">
         <Confetti className="fill-complementary-400" />
         <h2 className="font-ubuntu font-medium text-4xl text-complementary-700">
           Great!
@@ -72,8 +69,9 @@ export default function SignUpForm() {
           placeholder="Enter your email address"
           type="text"
           name="email"
-          onChange={handleChange}
-          value={formData.email}
+          register={register}
+          errors={errors}
+          value={watch("email")}
         />
         <Input
           icon={<User />}
@@ -81,8 +79,9 @@ export default function SignUpForm() {
           placeholder="Enter your username"
           type="text"
           name="username"
-          onChange={handleChange}
-          value={formData.username}
+          register={register}
+          errors={errors}
+          value={watch("username")}
         />
         <Input
           icon={<Lock />}
@@ -90,8 +89,9 @@ export default function SignUpForm() {
           placeholder="Enter your password"
           type="password"
           name="password"
-          onChange={handleChange}
-          value={formData.password}
+          register={register}
+          errors={errors}
+          value={watch("password")}
         />
         <Input
           icon={<Lock />}
@@ -99,11 +99,16 @@ export default function SignUpForm() {
           placeholder="Confirm your password"
           type="password"
           name="confirmPassword"
-          onChange={handleChange}
-          value={formData.confirmPassword}
+          register={register}
+          errors={errors}
+          value={watch("confirmPassword")}
         />
       </form>
-      <Button variant="primary" onClick={handleSubmit}>
+      <Button
+        variant="primary"
+        disabled={hasErrors}
+        onClick={handleSubmit(handleSignUp)}
+      >
         Register
       </Button>
     </section>
