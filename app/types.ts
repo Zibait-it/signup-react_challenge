@@ -1,6 +1,4 @@
-export type FormData = {
-  email: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-};
+import { z } from "zod";
+import { signUpSchema } from "./validationSchemas";
+
+export type FormData = z.infer<typeof signUpSchema>;

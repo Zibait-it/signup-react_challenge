@@ -3,7 +3,7 @@ import { EyeClosed } from "./Icons";
 import InputLabel from "./InputLabel";
 import InputWrapper from "./InputWrapper";
 import { FormData } from "../types";
-import { UseFormRegister, RegisterOptions, FieldErrors } from "react-hook-form";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 import ErrorWrapper from "./ErrorWrapper";
 import { tv } from "tailwind-variants";
 
@@ -14,7 +14,6 @@ type InputProps = {
   type: string;
   name: keyof FormData;
   register: UseFormRegister<FormData>;
-  rules: RegisterOptions<FormData>;
   errors: FieldErrors<FormData>;
 } & InputHTMLAttributes<HTMLInputElement>;
 
@@ -36,7 +35,6 @@ export default function Input({
   type,
   name,
   register,
-  rules,
   errors,
   value,
   ...rest
@@ -64,7 +62,7 @@ export default function Input({
         </div>
         <input
           {...rest}
-          {...register(name, rules)}
+          {...register(name)}
           type={type}
           className={input({ state: inputState })}
           placeholder={placeholder}
